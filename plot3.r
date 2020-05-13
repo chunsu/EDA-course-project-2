@@ -4,15 +4,17 @@ plot3 <- function(){
 
 library(dplyr)
 library(ggplot2)
-##NEI <- readRDS("summarySCC_PM25.rds")
-##SCC <- readRDS("./exdata_data_NEI_data/Source_Classification_Code.rds")
 
+# Read data
 data <- readRDS("./exdata_data_NEI_data/summarySCC_PM25.rds")
+# Select rows for Baltimore
 Baltimore <- filter(data, fips == "24510")
+# Group data by both year and type
 total <- summarise(group_by(data,year,type),Emissions = sum(Emissions))
-
+# Make plot
 png("Plot 3.png")
-myplot <- qplot(year, Emissions, data = total, color = factor(type), geom="line")
+##myplot <- qplot(year, Emissions, data = total, color = factor(type), geom="line")
+myplot <- ggplot(total, aes(year, Emissions, color = type)) + geom_line() + geom_point() + labs(title = "PM2.5 Emissions in Baltimore by types") + labs(y = "Emissions (tons)")
 print(myplot)
 dev.off() 
 }

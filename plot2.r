@@ -15,6 +15,7 @@ total <- summarise(group_by(Baltimore,year), Emissions = sum(Emissions))
 ## Generate the plot
 png("Plot 2.png")
 plot(total, type = "b", xaxt = "n", ylab = "Emissions (tons)", lwd=3, pch=19, col = "blue")
+title(main = "PM2.5 Total Emissions in Baltimore")
 axis(1, at=total$year, labels= total$year)
 dev.off() 
 }

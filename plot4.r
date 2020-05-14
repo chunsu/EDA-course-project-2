@@ -14,7 +14,15 @@ coal_data <- filter(data, SCC %in% SCC_list)
 coal_total <- summarise(group_by(coal_data,year), Emissions = sum(Emissions))
 
 png("Plot 4.png")
-myplot <- qplot(year, Emissions, data = coal_total, geom="line")
+##myplot <- qplot(year, Emissions, data = coal_total, geom="line")
+myplot <- ggplot(coal_total, aes(year, Emissions)) + 
+		  geom_line() + 
+		  geom_point() + 
+		  ggtitle("Emissions from Coal Combustion Sources in United States") + 
+		  theme(plot.title = element_text(hjust = 0.5)) +
+		  labs(y = "Emissions (tons)") +
+		  scale_y_continuous(labels = function(x) format(x, scientific = TRUE))
+
 print(myplot)
 dev.off() 
 }

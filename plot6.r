@@ -22,13 +22,19 @@ Fips <- c("24510", "06037")
 motor_data <- filter(data, SCC %in% SCC_list & fips %in% Fips)
 motor_data$fips <- as.factor(motor_data$fips)
 ## Add a city variable to the data
-motor_data$city <- recode(motor_data$fips, "24510" = "Los Angeles County, California", "06037" = "Baltimore City")
+motor_data$city <- recode(motor_data$fips, "24510" = "Baltimore City", "06037" = "Los Angeles County, California")
 motor_total <- summarise(group_by(motor_data,year,city), Emissions = sum(Emissions))
 
 
 png("Plot 6.png")
 
-myplot <- qplot(year, Emissions, data = motor_total, facets = .~city, geom="line")
+myplot <- ggplot(motor_total, aes(year, Emissions)) +
+		  facet_grid(.~city) +
+		  geom_line() +
+		  geom_point() +
+		  ggtitle("Emissions from Motor Vehicle Sources") + 
+		  theme(plot.title = element_text(hjust = 0.5)) +
+		  labs(y = "Emissions (tons)") 
 print(myplot)
 dev.off() 
 }

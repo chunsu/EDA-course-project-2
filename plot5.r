@@ -20,7 +20,12 @@ Bal_motor <- filter(data, SCC %in% SCC_list & fips == "24510")
 Bal_motor_total <- summarise(group_by(Bal_motor,year), Emissions = sum(Emissions))
 
 png("Plot 5.png")
-myplot <- qplot(year, Emissions, data = Bal_motor_total, geom="line")
+myplot <- ggplot(Bal_motor_total, aes(year, Emissions)) +
+		  geom_line() +
+		  geom_point() +
+		  ggtitle("Emissions from Motor Vehicle Sources in Baltimore") + 
+		  theme(plot.title = element_text(hjust = 0.5)) +
+		  labs(y = "Emissions (tons)") 
 print(myplot)
 dev.off() 
 }
